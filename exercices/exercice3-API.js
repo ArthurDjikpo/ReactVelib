@@ -1,6 +1,8 @@
-
-
-  _storeData = async (data) => {
+import {
+    AsyncStorage, 
+  } from 'react-native';
+  
+_storeData = async (data) => {
     try {
       await AsyncStorage.setItem("velib",data);
     } catch (error) {
@@ -19,7 +21,7 @@
     }
   };
 
-  async function getVelibFromApi() {
+  export async function getVelibFromApi() {
     try {
       let response = await fetch(
         'https://opendata.paris.fr/api/records/1.0/search/?dataset=velib-disponibilite-en-temps-reel',

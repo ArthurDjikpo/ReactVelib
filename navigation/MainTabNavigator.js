@@ -4,10 +4,23 @@ import { createBottomTabNavigator } from 'react-navigation-tabs';
 
 import ListScreen from '../screens/ListScreen';
 import MapScreen from '../screens/MapScreen';
+import HomeScreen from '../screens/HomeScreen';
+import DetailsScreen from '../exercices/exercice4';
+
+const HomeStack = createStackNavigator(
+  {
+    Home: HomeScreen,
+  }
+);
+
+HomeStack.navigationOptions = {
+  tabBarLabel: 'Home',
+};
 
 const ListStack = createStackNavigator(
   {
-    Home: ListScreen,
+    Velib: ListScreen,
+    DetailsStation: DetailsScreen
   }
 );
 
@@ -18,12 +31,6 @@ ListStack.navigationOptions = {
 const MapStack = createStackNavigator(
   {
     Links: MapScreen,
-    // tabBarIcon: () => (
-    //   <View>
-    //     <Ionicons name="md-home" color={{color:'black'}} size={50} />
-    //   </View>
-      
-    // ),
   }
 );
 
@@ -33,6 +40,7 @@ MapStack.navigationOptions = {
 };
 
 export default createBottomTabNavigator({
+  HomeStack,
   ListStack,
   MapStack,
 });
