@@ -1,5 +1,6 @@
 import * as Permissions from 'expo-permissions';
 import * as Location from 'expo-location';
+import { getVelibFromApi } from './exercice3-API';
 
 export async function getLocationAsync() {
     // permissions returns only for location permissions on iOS and under certain conditions, see Permissions.LOCATION
@@ -10,3 +11,16 @@ export async function getLocationAsync() {
       throw new Error('Location permission not granted');
     }
   }
+
+const distance = 1000
+
+// recup les velibs
+export const velibsStore = async () => {
+  const position = await getLocationAsync().catch(error => console.log(error));
+  const url = `https://opendata.paris.fr/api/records/1.0/search/?dataset=velib-disponibilite-en-temps-reel&geofilter.distance=${position.coords.latitude},${position.coords.longitude},${distance}`;
+  return getVelibFromApi(url);
+};
+
+//   await getposition();
+//   await getVelib()
+//   setVelib(velib)

@@ -1,39 +1,49 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import { View, StyleSheet, Text } from 'react-native';
-import MapView from 'react-native-maps';
+import MapView, { Marker } from 'react-native-maps';
 
-import {getLocationAsync} from '../exercices/exercice6-geo'
+import { VelibContext } from '../exercices/exercice-context'
+
+export default function MapScreen() {
 
 
-export default function MapScreen({navigation}) {
+  const velib = useContext(VelibContext)
+  console.log('velib', velib);
 
-  const  params  = navigation.getParam('detailsStationData'); 
-  // const name = params.station_name;
-  // const latitude = params.geo[0];
-  // const longitude = params.geo[1];
+  if (!velib.velibs) {
+    return (
+      <Text> Please wait....</Text>
+    )
+  }
 
-  const [myLocat, setMyLocat] = useState([]);
+  const station = velib.velibs.records;
 
-  useEffect(() => {
-    getLocationAsync().then(data =>{
-    setMyLocat(data)
-  })
-},[])
-//console.log (myLocat)
-  return (
+  return velib instanceof Object ? (
     <MapView
-    style={styles.container}
-    initialRegion={{
-      latitude: 48.8504659, 
-      longitude: 2.3497267,
-      latitudeDelta: 0.0922,
-      longitudeDelta: 0.0421,
-    }}
-    showsUserLocation = {true}
-    followUserLocation = {true}
-    zoomEnabled = {true}
-  />
-  );
+      style={styles.container}
+      initialRegion={{
+        latitude: 48.8504659,
+        longitude: 2.3497267,
+        latitudeDelta: 0.0922,
+        longitudeDelta: 0.0421,
+      }}
+      showsUserLocation={true}
+      followUserLocation={true}
+      zoomEnabled={true}
+    >
+      {
+        station.map(station => (
+          <Marker
+            key={station.recordid}
+            coordinate={{
+              latitude: station.geometry.coordinates[1],
+              longitude: station.geometry.coordinates[0],
+            }}
+          />
+        ))
+      }
+    </MapView>
+  ) : <Text> Please wait....</Text>;
 }
 
 MapScreen.navigationOptions = {

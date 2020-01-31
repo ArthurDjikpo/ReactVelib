@@ -1,4 +1,4 @@
-import React, { useState, useEffect }from 'react';
+import React, { useContext }from 'react';
 import {
   StyleSheet,
   Text,
@@ -6,25 +6,22 @@ import {
   TouchableOpacity,
   View
 } from 'react-native';
-import { getVelibFromApi } from '../exercices/exercice3-API' 
-// import { Ionicons } from '@expo/vector-icons';
-
+import {VelibContext} from '../exercices/exercice-context'
 
 export default function ListScreen({navigation}) {
 
-  const [velib, setVelib] = useState([]);
-
-  useEffect(() => {
-    getVelibFromApi().then(data=>{
-      setVelib(data)
-    })
-  },[]);
+  const velib = useContext( VelibContext)
+  if (!velib.velibs) {
+    return (
+      <Text> Please wait....</Text>
+    )
+  }
   function _onPress(detailsStationData){
     navigation.navigate("DetailsStation", {
       detailsStationData: detailsStationData
     })
   }
-  return (
+  return velib instanceof Object ? (
     <>
       <FlatList
         style={styles.container}
@@ -34,14 +31,14 @@ export default function ListScreen({navigation}) {
           onPress={() => _onPress(
             item.fields
           )}>
-            <Text>{item.fields.station_name}</Text>
+            <Text>{item.fields.station_name}({item.fields.dist}m)</Text>
         </TouchableOpacity>
         }}
-        data={velib}
-        // keyExtractor={item => item.recordsId}
+        data={velib.velibs.records}
+        keyExtractor={item => item.fields.station_code}
       />
     </>
-  );
+  ): <Text> Please wait....</Text>;
 }
 
 ListScreen.navigationOptions = {

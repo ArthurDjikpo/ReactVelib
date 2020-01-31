@@ -23,9 +23,7 @@ _storeData = async (data) => {
 
   export async function getVelibFromApi() {
     try {
-      let response = await fetch(
-        'https://opendata.paris.fr/api/records/1.0/search/?dataset=velib-disponibilite-en-temps-reel',
-      );
+      let response = await fetch(URL);
       let responseJson = await response.json();
       let dataStingify = JSON.stringify(responseJson.records)
        _storeData(dataStingify)
