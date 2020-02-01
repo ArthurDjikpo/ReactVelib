@@ -8,6 +8,9 @@
     "eject": "expo eject",
     "test": "jest --watchAll"
   },
+  "jest":{
+      "preset": "jest-expo"
+  },
   "dependencies": {
     "@expo/samples": "~36.0.0",
     "@expo/vector-icons": "~10.0.0",

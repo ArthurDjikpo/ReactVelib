@@ -1,14 +1,6 @@
 import React from 'react';
-import { View, StyleSheet, Text, ImageBackground, Button } from 'react-native';
-import { Ionicons } from '@expo/vector-icons';
+import { StyleSheet, ImageBackground, Button } from 'react-native';
 
-export const TabIcon = (props) => (
-  <Ionicons
-    name={'md-apps'}
-    size={35}
-    color={props.focused ? 'grey' : 'darkgrey'}
-  />
-)
 
 export default function HomeScreen({navigation}) {
   return (
@@ -29,8 +21,7 @@ export default function HomeScreen({navigation}) {
   )}
 
 HomeScreen.navigationOptions = {
-  title: 'Bienvenue ! ',
-  tabBarIcon: TabIcon
+  title: 'Bienvenue ! '
 };
 
 const styles = StyleSheet.create({

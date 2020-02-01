@@ -11,6 +11,7 @@ export default function DetailsScreen({navigation}) {
   const longitude = params.geo[1];
   const nbbike = params.nbbike;
   const nbebike = params.nbebike;
+  const card = params.creditcard;
 
   return (
     <>
@@ -30,15 +31,16 @@ export default function DetailsScreen({navigation}) {
             latitude: latitude,
             longitude: longitude
         }}
-          title={JSON.stringify(name)}
+          title={name}
         />  
       </MapView>
       <View style={styles.container}>
 
         <Text>Détails Station Vélib</Text>
-        <Text>ℹ️ Nom: {JSON.stringify(name)}</Text>
-        <Text>🚲Vélos disponibles: {JSON.stringify(nbbike)}</Text> 
+        <Text>ℹ️ Nom: {name}</Text>
+        <Text>🚲Vélos disponibles: {nbbike}</Text> 
         <Text>🔌Vélos électriques disponibles: {JSON.stringify(nbebike)}</Text> 
+        <Text> Achat possible en station (CB) : {card}  </Text>
 
       </View>
     </>
