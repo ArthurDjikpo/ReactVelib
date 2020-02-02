@@ -14,13 +14,9 @@ export async function getLocationAsync() {
 
 const distance = 1000
 
-// recup les velibs
+// recup les velibs pour le store
 export const velibsStore = async () => {
   const position = await getLocationAsync().catch(error => console.log(error));
   const url = `https://opendata.paris.fr/api/records/1.0/search/?dataset=velib-disponibilite-en-temps-reel&geofilter.distance=${position.coords.latitude},${position.coords.longitude},${distance}`;
   return getVelibFromApi(url);
 };
-
-//   await getposition();
-//   await getVelib()
-//   setVelib(velib)

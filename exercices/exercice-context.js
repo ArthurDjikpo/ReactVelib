@@ -7,7 +7,25 @@ export const VelibContext = createContext(1);
 const VelibProvider = ({ children }) => {
 
   const distance = 1000
-  const [velibs, setVelibs] = useState();
+  const [velibs, setVelibs] = useState()
+  const [position, setPosition] = useState([]);
+
+  //recup de la position du l'utilisateur
+  async function location(){
+    const positionLocal = await getLocationAsync().catch(error => console.log(error));
+   
+    return positionLocal
+  };
+  
+    useEffect(() => {
+       location().then(datas => {
+        setPosition(datas)
+      }).catch((error) => console.log("ERROR IN USEFFECT(): "+ error));
+   
+    },[]);
+
+ 
+
 // recup la position
 
 // recup les velibs
@@ -26,7 +44,7 @@ const VelibProvider = ({ children }) => {
     },[]);
   
     return (
-      <VelibContext.Provider value={{ velibs, getLocationAsync }}>
+      <VelibContext.Provider value={{ velibs,position }}>
         {children} 
       </VelibContext.Provider>
     );

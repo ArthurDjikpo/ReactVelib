@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useContext } from 'react';
+import React, { useState, useContext } from 'react';
 import { View, StyleSheet, Text } from 'react-native';
 import MapView, { Marker } from 'react-native-maps';
 
@@ -8,8 +8,8 @@ export default function MapScreen() {
 
 
   const velib = useContext(VelibContext)
-  console.log('velib', velib);
-
+  
+  
   if (!velib.velibs) {
     return (
       <Text> Please wait....</Text>
@@ -17,15 +17,18 @@ export default function MapScreen() {
   }
 
   const station = velib.velibs.records;
+  const localPos = velib.position;
+  console.log("position : " , localPos)
+
 
   return velib instanceof Object ? (
     <MapView
       style={styles.container}
       initialRegion={{
-        latitude: 48.8504659,
-        longitude: 2.3497267,
-        latitudeDelta: 0.0922,
-        longitudeDelta: 0.0421,
+        latitude: localPos.coords.latitude,
+        longitude: localPos.coords.longitude,
+        latitudeDelta: 0.05,
+        longitudeDelta: 0.05,
       }}
       showsUserLocation={true}
       followUserLocation={true}
@@ -39,6 +42,7 @@ export default function MapScreen() {
               latitude: station.geometry.coordinates[1],
               longitude: station.geometry.coordinates[0],
             }}
+            title={station.station_name}
           />
         ))
       }
