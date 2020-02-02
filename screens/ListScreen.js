@@ -28,7 +28,8 @@ export default function ListScreen({navigation}) {
   }
   return (
     <>
-    <Text style={styles.title}> Stations</Text>
+    <Text style={styles.title}> FavStations ⭐️</Text>
+    <Text style={styles.title}> Stations 🚲</Text>
 
       <FlatList
         style={styles.container}
@@ -40,7 +41,7 @@ export default function ListScreen({navigation}) {
           )}>
             <ListItem
             title= {item.fields.station_name}
-            subtitle= {<Text>{(item.fields.dist)}m</Text>}
+            subtitle= {<Text>📍{parseInt(item.fields.dist)}m</Text>}
             bottomDivider
             chevron/>
         </TouchableOpacity>

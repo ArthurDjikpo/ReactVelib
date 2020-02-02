@@ -2,6 +2,8 @@ import React,{useState} from 'react';
 import { View, StyleSheet,FlatList, Text, ImageBackground, Button } from 'react-native';
 
 import MapView, {Marker} from 'react-native-maps';
+import { ListItem, Card, CheckBox, Tile } from 'react-native-elements'
+
 
 export default function DetailsScreen({navigation}) {
 
@@ -15,6 +17,7 @@ export default function DetailsScreen({navigation}) {
   const nbebike = params.fields.nbebike;
   const card = params.fields.creditcard;
   const date = new Date (params.record_timestamp);
+  const dist = parseInt(params.fields.dist);
   
 
   const realTime =
@@ -41,25 +44,26 @@ export default function DetailsScreen({navigation}) {
           title={name}
         />  
       </MapView>
-      <View style={styles.container}>
+      <Card title={name} styles={styles.container}>
 
-        <Text h1>ℹ️ Nom: {name}</Text>
-        <Text>🚲Vélos disponibles: {nbbike}</Text> 
-        <Text>🔌Vélos électriques disponibles: {JSON.stringify(nbebike)}</Text> 
-        <Text>💳Achat possible en station (CB) : {
+      <ListItem title = { <Text>🚶‍♂️à {dist}m de toi</Text>}/> 
+        <ListItem title = { <Text>🚲Vélos disponibles: {nbbike}</Text>}/> 
+        <ListItem title = {<Text>🔌Vélos électriques disponibles: {JSON.stringify(nbebike)}</Text>}/> 
+        <ListItem title = {<Text>💳Achat possible en station (CB) : {
         card == "yes"
         ? " ✅ "
-        : " ❌"}  </Text>
-        <Text>⏰ Dernière mise a jour à {realTime}</Text>
+        : " ❌"} </Text>} />
+        <ListItem title = { <Text>⏰ Dernière mise a jour à {realTime}</Text>}/>
 
-        <Text>
-          {inFav == false
+        <CheckBox
+        center
+         title = {inFav == false
             ? "⭐️ Ajouter aux favoris"
             : "❌ Supprimer aux favoris"}
-        </Text>
+        />
 
 
-      </View>
+      </Card>
     </>
 
   )}
@@ -70,15 +74,17 @@ DetailsScreen.navigationOptions = {
 
 const styles = StyleSheet.create({
   mapbox: {
-    flex: 0.4,
+    flex: 0.6,
     alignItems: 'center', 
     justifyContent: 'center',
 
   },
   container: {
-    flex: 0.6,
+    flex: 0.4,
     alignItems: 'center', 
-    justifyContent: 'center',
 
+  },
+  title: {
+    fontSize: 20
   },
 });
