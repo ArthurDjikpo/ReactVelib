@@ -1,17 +1,24 @@
-import React from 'react';
+import React,{useState} from 'react';
 import { View, StyleSheet,FlatList, Text, ImageBackground, Button } from 'react-native';
 
 import MapView, {Marker} from 'react-native-maps';
 
 export default function DetailsScreen({navigation}) {
 
+  const [inFav, setInFav] = useState(false);
+
   const  params  = navigation.getParam('detailsStationData'); 
-  const name = params.station_name;
-  const latitude = params.geo[0];
-  const longitude = params.geo[1];
-  const nbbike = params.nbbike;
-  const nbebike = params.nbebike;
-  const card = params.creditcard;
+  const name = params.fields.station_name;
+  const latitude = params.fields.geo[0];
+  const longitude = params.fields.geo[1];
+  const nbbike = params.fields.nbbike;
+  const nbebike = params.fields.nbebike;
+  const card = params.fields.creditcard;
+  const date = new Date (params.record_timestamp);
+  
+
+  const realTime =
+    date.getHours()+":"+date.getMinutes()+":"+date.getUTCSeconds();
 
   return (
     <>
@@ -36,11 +43,21 @@ export default function DetailsScreen({navigation}) {
       </MapView>
       <View style={styles.container}>
 
-        <Text>Détails Station Vélib</Text>
-        <Text>ℹ️ Nom: {name}</Text>
+        <Text h1>ℹ️ Nom: {name}</Text>
         <Text>🚲Vélos disponibles: {nbbike}</Text> 
         <Text>🔌Vélos électriques disponibles: {JSON.stringify(nbebike)}</Text> 
-        <Text> Achat possible en station (CB) : {card}  </Text>
+        <Text>💳Achat possible en station (CB) : {
+        card == "yes"
+        ? " ✅ "
+        : " ❌"}  </Text>
+        <Text>⏰ Dernière mise a jour à {realTime}</Text>
+
+        <Text>
+          {inFav == false
+            ? "⭐️ Ajouter aux favoris"
+            : "❌ Supprimer aux favoris"}
+        </Text>
+
 
       </View>
     </>
@@ -48,7 +65,7 @@ export default function DetailsScreen({navigation}) {
   )}
 
 DetailsScreen.navigationOptions = {
-  title: 'Détails',
+  title: 'Details Sation Velibs',
 };
 
 const styles = StyleSheet.create({

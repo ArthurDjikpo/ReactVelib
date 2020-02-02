@@ -6,9 +6,11 @@ export const VelibContext = createContext(1);
 
 const VelibProvider = ({ children }) => {
 
-  const distance = 1000
+  const distance = 5000
+
   const [velibs, setVelibs] = useState()
   const [position, setPosition] = useState([]);
+
 
   //recup de la position du l'utilisateur
   async function location(){
@@ -24,9 +26,6 @@ const VelibProvider = ({ children }) => {
    
     },[]);
 
- 
-
-// recup la position
 
 // recup les velibs
    async function fetchVelibs(){
@@ -42,7 +41,8 @@ const VelibProvider = ({ children }) => {
       }).catch((error) => console.log("ERROR IN USEFFECT(): "+ error));
    
     },[]);
-  
+
+    //ajouts des fav
     return (
       <VelibContext.Provider value={{ velibs,position }}>
         {children} 

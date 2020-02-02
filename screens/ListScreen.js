@@ -4,8 +4,10 @@ import {
   Text,
   FlatList,
   TouchableOpacity,
-  View
+  ImageBackground
 } from 'react-native';
+import { ListItem } from 'react-native-elements'
+
 import {VelibContext} from '../exercices/exercice-context'
 
 export default function ListScreen({navigation}) {
@@ -13,7 +15,10 @@ export default function ListScreen({navigation}) {
   const velib = useContext( VelibContext)
   if (!velib.velibs) {
     return (
-      <Text> Please wait....</Text>
+      <ImageBackground style={styles.container}
+      resizeMode='center'
+      source={{uri: 'https://media.giphy.com/media/JrSU9r2TwaTXiQFNr3/giphy.gif'}}
+      />
     )
   }
   function _onPress(detailsStationData){
@@ -21,24 +26,30 @@ export default function ListScreen({navigation}) {
       detailsStationData: detailsStationData
     })
   }
-  return velib instanceof Object ? (
+  return (
     <>
+    <Text style={styles.title}> Stations</Text>
+
       <FlatList
         style={styles.container}
         renderItem={({ item }) => {
           return <TouchableOpacity
           style={styles.button}
           onPress={() => _onPress(
-            item.fields
+            item
           )}>
-            <Text>{item.fields.station_name}({item.fields.dist}m)</Text>
+            <ListItem
+            title= {item.fields.station_name}
+            subtitle= {<Text>{(item.fields.dist)}m</Text>}
+            bottomDivider
+            chevron/>
         </TouchableOpacity>
         }}
         data={velib.velibs.records}
         keyExtractor={item => item.fields.station_code}
       />
     </>
-  ): <Text> Please wait....</Text>;
+  );
 }
 
 ListScreen.navigationOptions = {
@@ -51,4 +62,7 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: '#fff',
   },
+  title: {
+    fontSize: 40
+  }
 });

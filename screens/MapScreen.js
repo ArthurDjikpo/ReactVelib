@@ -1,5 +1,5 @@
-import React, { useState, useContext } from 'react';
-import { View, StyleSheet, Text } from 'react-native';
+import React, { useContext } from 'react';
+import { View, StyleSheet, Text, ImageBackground } from 'react-native';
 import MapView, { Marker } from 'react-native-maps';
 
 import { VelibContext } from '../exercices/exercice-context'
@@ -12,16 +12,17 @@ export default function MapScreen() {
   
   if (!velib.velibs) {
     return (
-      <Text> Please wait....</Text>
+      <ImageBackground style={styles.container}
+      resizeMode='center'
+      source={{uri: 'https://media.giphy.com/media/JrSU9r2TwaTXiQFNr3/giphy.gif'}}
+      />
     )
   }
 
   const station = velib.velibs.records;
   const localPos = velib.position;
-  console.log("position : " , localPos)
 
-
-  return velib instanceof Object ? (
+  return (
     <MapView
       style={styles.container}
       initialRegion={{
@@ -42,12 +43,12 @@ export default function MapScreen() {
               latitude: station.geometry.coordinates[1],
               longitude: station.geometry.coordinates[0],
             }}
-            title={station.station_name}
+            title={station.fields.station_name}
           />
         ))
       }
     </MapView>
-  ) : <Text> Please wait....</Text>;
+  ) 
 }
 
 MapScreen.navigationOptions = {
